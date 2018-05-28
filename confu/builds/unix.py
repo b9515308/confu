@@ -18,6 +18,15 @@ class UnixBuild(Build):
         elif self.target.is_android:
             from confu.tools.toolchains import AndroidToolchain
             self.toolchain = AndroidToolchain(target, toolchain)
+        elif self.target.is_arm:
+            from confu.tools.toolchains import UnixToolchain
+            self.toolchain = UnixToolchain(target)
+            self.toolchain.cc = "aarch64-linux-gnu-gcc"
+            self.toolchain.cxx = "aarch64-linux-gnu-g++"
+            self.toolchain.ar = "aarch64-linux-gnu-ar"
+            self.toolchain.ranlib = "ranlib"
+            self.toolchain.strip = "strip"
+            self.target.is_arm = False 
         else:
             from confu.tools.toolchains import UnixToolchain
             self.toolchain = UnixToolchain(target)
